@@ -25,7 +25,7 @@ setup(
         "Topic :: System :: Logging",
     ],
     keywords="logs",
-    packages=find_packages(where="src", exclude="tests"),
+    packages=find_packages(exclude="tests"),
     python_requires=">=3.7, <4",
     install_requires=["dynaconf", "python-json-logger"],
     license="MIT",
