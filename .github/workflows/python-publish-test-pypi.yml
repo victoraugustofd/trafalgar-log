@@ -19,7 +19,7 @@ permissions:
 jobs:
   deploy:
 
-    runs-on: 3.9.14-alpine3.16
+    runs-on: alpine:3.11
 
     steps:
     - uses: actions/checkout@v3
