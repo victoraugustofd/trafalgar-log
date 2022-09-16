@@ -1,0 +1,16 @@
+# ignore everything
+*
+
+# accept directories
+!*/
+
+# accept files in folders
+!src/**/*.py
+!tests/**/*.py
+
+# accept files in root
+!/.gitignore
+!README.md
+!LICENSE
+!setup.py
+!
