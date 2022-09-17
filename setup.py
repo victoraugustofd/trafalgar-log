@@ -27,6 +27,6 @@ setup(
     keywords="logs",
     packages=find_packages(where="trafalgar_log", exclude="tests"),
     python_requires=">=3.7, <4",
-    install_requires=["dynaconf", "python-json-_logger"],
+    install_requires=["dynaconf", "python-json-logger"],
     license="MIT",
 )
