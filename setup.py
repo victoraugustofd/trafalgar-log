@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 # Package version
-VERSION = "1.0.0-rc3"
+VERSION = "1.0.0-rc4"
 
 setup(
     name="trafalgar-log",
@@ -25,7 +25,7 @@ setup(
         "Topic :: System :: Logging",
     ],
     keywords="logs",
-    package_dir={"": "trafalgar_log"},
+    package_dir={"trafalgar_log": "trafalgar_log"},
     packages=find_packages(where="trafalgar_log", exclude="tests"),
     python_requires=">=3.7, <4",
     install_requires=["dynaconf", "python-json-logger"],
