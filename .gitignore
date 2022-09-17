@@ -5,7 +5,7 @@
 !*/
 
 # accept files in folders
-!src/**/*.py
+!trafalgar_log/**/*.py
 !tests/**/*.py
 
 # accept files in root
