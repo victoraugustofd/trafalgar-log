@@ -130,6 +130,14 @@ def _get_formatter() -> CustomJsonFormatter:
     return CustomJsonFormatter(_get_format())
 
 
+def _remove_handlers():
+    root = logging.getLogger()
+
+    if root.handlers:
+        for handler in root.handlers:
+            root.removeHandler(handler)
+
+
 def _get_handler():
     log_handler = StreamHandler()
     log_handler.setFormatter(_get_formatter())
@@ -137,6 +145,10 @@ def _get_handler():
 
 
 def initialize_logger() -> Logger:
+    # remove handlers to avoid conflict and log duplication
+    # refs.: https://stackoverflow.com/a/45624044/7973282
+    _remove_handlers()
+
     logger = logging.getLogger(SETTINGS.get("APP_NAME"))
     logger.addHandler(_get_handler())
     logger.setLevel(logging.getLevelName(SETTINGS.get("LOG_LEVEL")))
