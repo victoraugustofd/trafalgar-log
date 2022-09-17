@@ -25,6 +25,7 @@ setup(
         "Topic :: System :: Logging",
     ],
     keywords="logs",
+    package_dir={"": "trafalgar_log"},
     packages=find_packages(where="trafalgar_log", exclude="tests"),
     python_requires=">=3.7, <4",
     install_requires=["dynaconf", "python-json-logger"],
