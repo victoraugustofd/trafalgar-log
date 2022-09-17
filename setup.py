@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 # Package version
-VERSION = "1.0.0-rc4"
+VERSION = "1.0.0-rc5"
 
 setup(
     name="trafalgar-log",
