@@ -160,6 +160,7 @@ def get_payload(payload: object) -> dict:
     return json.loads(
         json.dumps(
             payload,
+            skipkeys=True,
             default=lambda o: o.__dict__ if hasattr(o, "__dict__") else str(o),
         )
     )
