@@ -26,6 +26,10 @@ LOG_MESSAGE = LogFields.LOG_MESSAGE.value
 PAYLOAD = LogFields.PAYLOAD.value
 SEVERITY = LogFields.SEVERITY.value
 TIMESTAMP = LogFields.TIMESTAMP.value
+FIELDS_TO_MASK = [
+    field.strip().lower() for field in SETTINGS.get("FIELDS_TO_MASK").split(",")
+]
+MASK_CHARACTER = "*"
 
 
 class CustomJsonFormatter(JsonFormatter):
@@ -156,11 +160,48 @@ def initialize_logger() -> Logger:
     return logger
 
 
+def _mask_list(value: list) -> list:
+    return [MASK_CHARACTER for _ in value]
+
+
+def is_primitive(obj):
+    return not hasattr(obj, "__dict__")
+
+
+def _should_mask_primitive_value(key, value):
+    return is_primitive(value) and key.lower() in FIELDS_TO_MASK
+
+
+def _mask_fields(payload) -> dict:
+    return _dict_replace_value(payload)
+
+
+# refs.: https://stackoverflow.com/a/60776516/7973282
+
+
+def _dict_replace_value(payload) -> dict:
+    new_payload = {}
+
+    for key, value in payload.items():
+        if isinstance(value, dict):
+            value = _dict_replace_value(value)
+        elif isinstance(value, list):
+            value = _mask_list(value)
+        elif _should_mask_primitive_value(key, value):
+            value = MASK_CHARACTER
+        new_payload[key] = value
+    return new_payload
+
+
 def get_payload(payload: object) -> dict:
-    return json.loads(
-        json.dumps(
-            payload,
-            skipkeys=True,
-            default=lambda o: o.__dict__ if hasattr(o, "__dict__") else str(o),
-        )
+    return _mask_fields(
+        json.loads(
+            json.dumps(
+                payload,
+                skipkeys=True,
+                default=lambda o: o.__dict__
+                if hasattr(o, "__dict__")
+                else str(o),
+            )
+        ),
     )

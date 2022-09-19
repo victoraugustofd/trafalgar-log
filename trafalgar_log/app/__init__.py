@@ -12,6 +12,7 @@ SETTINGS = Dynaconf(
             must_exist=True,
         ),
         Validator("LOG_LEVEL", default="INFO"),
+        Validator("FIELDS_TO_MASK", default=[]),
     ],
 )
 
