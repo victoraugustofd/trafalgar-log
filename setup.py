@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from semver import VersionInfo
+# from semver import VersionInfo
 from setuptools import setup, find_packages
 from uplink import Consumer, get, response_handler
 
@@ -17,12 +17,13 @@ PYPI_URL = "https://pypi.org"
 PACKAGE_ENDPOINT = "/pypi/trafalgar-log/json"
 
 
-def raise_for_status(response) -> VersionInfo:
+def raise_for_status(response) -> str:
     status_code: int = response.status_code
 
     if _is_success(status_code):
         Logger.info("Setup", "Successfully generated token.", response)
-        return VersionInfo.parse(response.json().get("info").get("version"))
+        # return VersionInfo.parse(response.json().get("info").get("version"))
+        return ""
 
 
 def _is_success(status_code: int):
@@ -34,7 +35,7 @@ class PyPIClient(Consumer):
     @get(PACKAGE_ENDPOINT)
     def get_version(
         self,
-    ) -> VersionInfo:
+    ) -> str:
         """Generate new token."""
 
 
@@ -51,21 +52,21 @@ def _is_main_env(env: str) -> bool:
 
 
 def _get_version() -> str:
-    version: VersionInfo = VersionInfo.parse("1.0.0-rc1")
-    test_pypi_version: VersionInfo = TEST_PYPI_ADAPTER.get_version()
-    pypi_version: VersionInfo = PYPI_ADAPTER.get_version()
+    # version: VersionInfo = VersionInfo.parse("1.0.0-rc1")
+    # test_pypi_version: VersionInfo = TEST_PYPI_ADAPTER.get_version()
+    # pypi_version: VersionInfo = PYPI_ADAPTER.get_version()
     env: str = os.getenv("ENV")
 
-    if test_pypi_version or pypi_version:
-        if test_pypi_version.compare(pypi_version) == -1:
-            pass
+    # if test_pypi_version or pypi_version:
+    #     if test_pypi_version.compare(pypi_version) == -1:
+    #         pass
+    #
+    #     if _is_dev_env(env):
+    #         version = pypi_version.next_version(part="prerelease")
+    #     if _is_main_env(env):
+    #         version = pypi_version.next_version(part="minor")
 
-        if _is_dev_env(env):
-            version = pypi_version.next_version(part="prerelease")
-        if _is_main_env(env):
-            version = pypi_version.next_version(part="minor")
-
-    return str(version)
+    return str("version")
 
 
 # Package version
