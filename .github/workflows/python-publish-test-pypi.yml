@@ -30,8 +30,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build
-        pip install semver
+        pipenv install build
+        pipenv install semver
         pip install uplink
     - name: Build package
       run: |
