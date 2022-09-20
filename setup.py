@@ -48,27 +48,45 @@ def _is_main_env(env: str) -> bool:
     return env.lower() == "main"
 
 
+def _is_versions_equals(version_a, version_b):
+    return version_a.compare(version_b) == 0
+
+
+def _define_version(
+    test_pypi_version: VersionInfo, pypi_version: VersionInfo
+) -> VersionInfo:
+    env: str = os.getenv("ENV")
+    test_pypi_version_without_prerelease = VersionInfo(
+        major=test_pypi_version.major,
+        minor=test_pypi_version.minor,
+        patch=test_pypi_version.patch,
+    )
+
+    if not test_pypi_version and not pypi_version:
+        return VersionInfo.parse("1.0.0-rc.1")
+
+    if _is_dev_env(env):
+        if not pypi_version or not _is_versions_equals(
+            test_pypi_version_without_prerelease, pypi_version
+        ):
+            return test_pypi_version.next_version(part="prerelease")
+        else:
+            return test_pypi_version.bump_minor().bump_prerelease()
+    if _is_main_env(env):
+        return test_pypi_version.finalize_version()
+
+
 def _get_version() -> str:
-    version: VersionInfo = VersionInfo.parse("1.0.0-rc1")
+    version: VersionInfo
     test_pypi_version: VersionInfo = TEST_PYPI_ADAPTER.get_version()
     pypi_version: VersionInfo = PYPI_ADAPTER.get_version()
-    env: str = os.getenv("ENV")
 
-    if test_pypi_version or pypi_version:
-        if test_pypi_version.compare(pypi_version) == -1:
-            pass
-
-        if _is_dev_env(env):
-            version = pypi_version.next_version(part="prerelease")
-        if _is_main_env(env):
-            version = pypi_version.next_version(part="minor")
-
-    return str(version)
+    return str(_define_version(test_pypi_version, pypi_version))
 
 
 # Package version
 # VERSION = _get_version()
-VERSION = "1.0.0-rc9"
+VERSION = "1.0.0-rc.1"
 
 setup(
     name="trafalgar-log",
