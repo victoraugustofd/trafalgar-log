@@ -40,7 +40,7 @@ jobs:
       run: |
         echo "ENV=main" >> $GITHUB_ENV
         echo "PYPI_TOKEN=${{ secrets.PYPI_API_TOKEN }}" >> $GITHUB_ENV
-        echo "PYPI_URL=https://pypi.org/simple/" >> $GITHUB_ENV
+        echo "PYPI_URL=https://upload.pypi.org/legacy/" >> $GITHUB_ENV
       if: startsWith(github.ref_name, 'main')
 
     - name: Install dependencies
