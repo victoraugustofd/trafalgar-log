@@ -5,6 +5,7 @@
 !*/
 
 # accept files in folders
+!.github/workflows/*.yml
 !trafalgar_log/**/*.py
 !tests/**/*.py
 
@@ -12,5 +13,4 @@
 !/.gitignore
 !README.md
 !LICENSE
-!requirements.txt
 !setup.py
