@@ -1,13 +1,13 @@
 import os
 import pathlib
+
 import pip
-pip.main(['install', 'semver', 'uplink'])  
+
+pip.main(["install", "semver", "uplink"])
 
 from semver import VersionInfo
 from setuptools import setup, find_packages
 from uplink import Consumer, get, response_handler
-
-from trafalgar_log.core.logger import Logger
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
