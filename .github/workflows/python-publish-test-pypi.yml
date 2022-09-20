@@ -34,6 +34,7 @@ jobs:
         ENV: dev
         PYPI_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
         PYPI_URL: https://test.pypi.org/legacy/
+      run: "echo 'Setting dev variables.'"
       if: startsWith(github.ref_name, 'dev')
 
     - name: Sets env vars for main
@@ -41,6 +42,7 @@ jobs:
         ENV: main
         PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         PYPI_URL: https://pypi.org/simple
+      run: "echo 'Setting main variables.'"
       if: startsWith(github.ref_name, 'main')
 
     - name: Install dependencies
