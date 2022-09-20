@@ -1,0 +1,17 @@
+# ignore everything
+*
+
+# accept directories
+!*/
+
+# accept files in folders
+!.github/workflows/*.yml
+!trafalgar_log/**/*.py
+!tests/**/*.py
+
+# accept files in root
+!/.gitignore
+!README.md
+!LICENSE
+!setup.py
+!pyproject.toml
