@@ -27,11 +27,14 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.7'
+    - name: Install pipenv
+      run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
+    - run: pipenv install
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e semver
-        pip install -e uplink
+        pipenv install semver
+        pipenv install uplink
         pip install build
     - name: Build package
       run: |
