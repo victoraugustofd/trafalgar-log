@@ -1,5 +1,7 @@
 import os
 import pathlib
+import pip
+pip.main(['install', 'semver', 'uplink'])  
 
 from semver import VersionInfo
 from setuptools import setup, find_packages
