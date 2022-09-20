@@ -30,9 +30,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pipenv install build
-        pipenv install semver
-        pip install uplink
+        pip install -e semver
+        pip install -e uplink
+        pip install build
     - name: Build package
       run: |
         pip freeze
