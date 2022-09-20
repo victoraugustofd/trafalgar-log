@@ -57,6 +57,8 @@ def _is_versions_equals(version_a, version_b):
 def _define_version(
     test_pypi_version: VersionInfo, pypi_version: VersionInfo
 ) -> VersionInfo:
+    print("--------")
+    print(os.environ)
     env: str = os.getenv("ENV")
     test_pypi_version_without_prerelease = VersionInfo(
         major=test_pypi_version.major,

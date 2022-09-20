@@ -30,11 +30,10 @@ jobs:
         python-version: '3.7'
 
     - name: Sets env vars for dev
-      env:
-        ENV: dev
-        PYPI_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        PYPI_URL: https://test.pypi.org/legacy/
-      run: "echo 'Setting dev variables.'"
+      run: |
+        echo "ENV=dev" >> $GITHUB_ENV
+        echo "PYPI_TOKEN=${{ secrets.TEST_PYPI_API_TOKEN }}" >> $GITHUB_ENV
+        echo "PYPI_URL=https://test.pypi.org/legacy/" >> $GITHUB_ENV
       if: startsWith(github.ref_name, 'dev')
 
     - name: Sets env vars for main
@@ -58,5 +57,5 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
-        password: $PYPI_TOKEN
-        repository_url: $PYPI_URL
+        password: ${{ env.PYPI_TOKEN }}
+        repository_url: ${{ env.PYPI_URL }}
