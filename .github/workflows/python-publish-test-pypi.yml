@@ -35,6 +35,7 @@ jobs:
         pip install uplink
     - name: Build package
       run: |
+        pip freeze
         python -m build
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@master
