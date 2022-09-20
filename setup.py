@@ -19,7 +19,7 @@ def raise_for_status(response) -> VersionInfo:
     status_code: int = response.status_code
 
     if _is_success(status_code):
-        Logger.info("Setup", "Successfully generated token.", response)
+        print(f"Successfully generated token {response}")
         return VersionInfo.parse(response.json().get("info").get("version"))
 
 
