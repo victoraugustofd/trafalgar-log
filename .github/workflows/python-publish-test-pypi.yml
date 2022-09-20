@@ -37,11 +37,10 @@ jobs:
       if: startsWith(github.ref_name, 'dev')
 
     - name: Sets env vars for main
-      env:
-        ENV: main
-        PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        PYPI_URL: https://pypi.org/simple
-      run: "echo 'Setting main variables.'"
+      run: |
+        echo "ENV=main" >> $GITHUB_ENV
+        echo "PYPI_TOKEN=${{ secrets.PYPI_API_TOKEN }}" >> $GITHUB_ENV
+        echo "PYPI_URL=https://pypi.org/simple/" >> $GITHUB_ENV
       if: startsWith(github.ref_name, 'main')
 
     - name: Install dependencies

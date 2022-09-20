@@ -19,7 +19,8 @@ def raise_for_status(response) -> VersionInfo:
     status_code: int = response.status_code
 
     if _is_success(status_code):
-        print(f"Successfully generated token {response}")
+        print(f"Successfully get PyPI data {response.json()}")
+
         return VersionInfo.parse(
             response.json().get("info").get("version").replace("rc", "-rc.")
         )
@@ -57,8 +58,6 @@ def _is_versions_equals(version_a, version_b):
 def _define_version(
     test_pypi_version: VersionInfo, pypi_version: VersionInfo
 ) -> VersionInfo:
-    print("--------")
-    print(os.environ)
     env: str = os.getenv("ENV")
     test_pypi_version_without_prerelease = VersionInfo(
         major=test_pypi_version.major,
@@ -90,7 +89,6 @@ def _get_version() -> str:
 
 # Package version
 VERSION = _get_version()
-# VERSION = "1.0.0-rc.10"
 
 setup(
     name="trafalgar-log",
