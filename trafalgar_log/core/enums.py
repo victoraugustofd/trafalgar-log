@@ -3,7 +3,7 @@ from enum import Enum
 
 class LogFields(Enum):
     APP = "app"
-    CHANNEL = "channel"
+    FLOW = "flow"
     CODE_LINE = "code_line"
     CORRELATION_ID = "correlation_id"
     DATE_TIME = "date_time"

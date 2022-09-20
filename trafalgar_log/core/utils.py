@@ -14,18 +14,18 @@ from pythonjsonlogger.jsonlogger import JsonFormatter
 from trafalgar_log.app import SETTINGS
 from trafalgar_log.core.enums import LogFields
 
-APP = LogFields.APP.value
-CHANNEL = LogFields.CHANNEL.value
-CODE_LINE = LogFields.CODE_LINE.value
-CORRELATION_ID = LogFields.CORRELATION_ID.value
-DATE_TIME = LogFields.DATE_TIME.value
-DOMAIN = LogFields.DOMAIN.value
-INSTANCE_ID = LogFields.INSTANCE_ID.value
-LOG_CODE = LogFields.LOG_CODE.value
-LOG_MESSAGE = LogFields.LOG_MESSAGE.value
-PAYLOAD = LogFields.PAYLOAD.value
-SEVERITY = LogFields.SEVERITY.value
-TIMESTAMP = LogFields.TIMESTAMP.value
+APP: str = LogFields.APP.value
+FLOW: str = LogFields.FLOW.value
+CODE_LINE: str = LogFields.CODE_LINE.value
+CORRELATION_ID: str = LogFields.CORRELATION_ID.value
+DATE_TIME: str = LogFields.DATE_TIME.value
+DOMAIN: str = LogFields.DOMAIN.value
+INSTANCE_ID: str = LogFields.INSTANCE_ID.value
+LOG_CODE: str = LogFields.LOG_CODE.value
+LOG_MESSAGE: str = LogFields.LOG_MESSAGE.value
+PAYLOAD: str = LogFields.PAYLOAD.value
+SEVERITY: str = LogFields.SEVERITY.value
+TIMESTAMP: str = LogFields.TIMESTAMP.value
 FIELDS_TO_MASK = [
     field.strip().lower() for field in SETTINGS.get("FIELDS_TO_MASK").split(",")
 ]
@@ -44,7 +44,7 @@ class CustomJsonFormatter(JsonFormatter):
         )
 
         log_record[APP] = SETTINGS.get("APP_NAME")
-        log_record[CHANNEL] = os.getenv(CHANNEL, "NOT_SET")
+        log_record[FLOW] = os.getenv(FLOW, "NOT_SET")
         log_record[CODE_LINE] = _get_code_line()
         log_record[DATE_TIME] = _get_date_time(record)
         log_record[DOMAIN] = SETTINGS.get(DOMAIN)
@@ -177,8 +177,6 @@ def _mask_fields(payload) -> dict:
 
 
 # refs.: https://stackoverflow.com/a/60776516/7973282
-
-
 def _dict_replace_value(payload) -> dict:
     new_payload = {}
 

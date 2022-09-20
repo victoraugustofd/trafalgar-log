@@ -1,5 +1,7 @@
 import logging
+import os
 from logging import INFO, DEBUG, WARN, ERROR, CRITICAL
+from typing import NoReturn
 
 from trafalgar_log.core.utils import (
     initialize_logger,
@@ -7,6 +9,9 @@ from trafalgar_log.core.utils import (
     PAYLOAD,
     SEVERITY,
     get_payload,
+    CORRELATION_ID,
+    FLOW,
+    INSTANCE_ID,
 )
 
 _logger = initialize_logger()
@@ -32,6 +37,18 @@ class _TrafalgarLogger(object):
     def critical(self, log_code: str, log_message: str, payload: object):
         if _logger.isEnabledFor(CRITICAL):
             self._do_log(CRITICAL, log_code, log_message, payload)
+
+    @staticmethod
+    def set_correlation_id(correlation_id: str) -> NoReturn:
+        os.environ[CORRELATION_ID] = correlation_id
+
+    @staticmethod
+    def set_flow(flow: str) -> NoReturn:
+        os.environ[FLOW] = flow
+
+    @staticmethod
+    def set_instance_id(instance_id: str) -> NoReturn:
+        os.environ[INSTANCE_ID] = instance_id
 
     @staticmethod
     def _do_log(
