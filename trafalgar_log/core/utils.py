@@ -11,7 +11,7 @@ from uuid import uuid4
 
 from pythonjsonlogger.jsonlogger import JsonFormatter
 
-from trafalgar_log.app import SETTINGS
+from trafalgar_log.app import SETTINGS, DEFAULT_FIELDS_TO_MASK
 from trafalgar_log.core.enums import LogFields
 
 APP: str = LogFields.APP.value
@@ -26,9 +26,9 @@ LOG_MESSAGE: str = LogFields.LOG_MESSAGE.value
 PAYLOAD: str = LogFields.PAYLOAD.value
 SEVERITY: str = LogFields.SEVERITY.value
 TIMESTAMP: str = LogFields.TIMESTAMP.value
-FIELDS_TO_MASK = [
-    field.strip().lower() for field in SETTINGS.get("FIELDS_TO_MASK").split(",")
-]
+ALL_FIELDS_TO_MASK: list[str] = DEFAULT_FIELDS_TO_MASK
+ALL_FIELDS_TO_MASK.extend(SETTINGS.get("FIELDS_TO_MASK").split(","))
+FIELDS_TO_MASK = [field.strip().lower() for field in ALL_FIELDS_TO_MASK]
 MASK_CHARACTER = "*"
 
 
