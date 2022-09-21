@@ -8,8 +8,11 @@ from uplink import Consumer, get, response_handler
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
 
+# Text to remove
+to_remove = "\r\n[Leia em portugu\xc3\xaas aqui!](README_pt-br.md)\r\n\r\n"
+
 # The text of the README file
-README = (HERE / "README.md").read_text()
+README = (HERE / "README.md").read_text().replace(to_remove, "")
 TEST_PYPI_URL = "https://test.pypi.org"
 PYPI_URL = "https://pypi.org"
 PACKAGE_ENDPOINT = "/pypi/trafalgar-log/json"
