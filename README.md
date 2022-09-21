@@ -1,6 +1,5 @@
 
-![law jolly roger](https://onepiece.fandom.com/wiki/Heart_Pirates?
-file=Heart_Pirates%2527_Jolly_Roger.png)
+![law jolly roger](https://static.wikia.nocookie.net/onepiece/images/7/76/Heart_Pirates%27_Jolly_Roger.png/revision/latest?cb=20140715211602)
 
 # 🏴‍☠️ Trafalgar Log
 Trafalgar Log is a Python Framework that standardize JSON Logs and make it 
@@ -30,12 +29,12 @@ Log:
 
 ### Table legend
 
-| Legend | Description                                                                                                        |
-|:------:|:-------------------------------------------------------------------------------------------------------------------|
-|   ✍️   | You are responsible for configuring this field through environment variable ([see section](#environment-variables) |
-| 🐻‍❄️  | This field is automatically filled in each log event.                                                              |
-|   💻   | When you code your log event, you will need to pass this field to log method ([see section](#logging-events))      |
-|   🍕   | This field is optional, but makes your log easier to analyse ([see section](#optional-fields))                     |
+| Legend | Description                                                                                                         |
+|:------:|:--------------------------------------------------------------------------------------------------------------------|
+|   ✍️   | You are responsible for configuring this field through environment variable ([see section](#environment-variables)) |
+| 🐻‍❄️  | This field is automatically filled in each log event.                                                               |
+|   💻   | When you code your log event, you will need to pass this field to log method ([see section](#logging-events))       |
+|   🍕   | This field is optional, but makes your log easier to analyse ([see section](#optional-fields))                      |
 
 
 ## ⚙️ Configuration
