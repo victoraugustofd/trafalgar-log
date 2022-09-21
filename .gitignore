@@ -11,7 +11,7 @@
 
 # accept files in root
 !/.gitignore
-!README.md
+!README*.md
 !LICENSE
 !setup.py
 !pyproject.toml

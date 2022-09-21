@@ -1,53 +1,52 @@
 
 ![law jolly roger](https://static.wikia.nocookie.net/onepiece/images/7/76/Heart_Pirates%27_Jolly_Roger.png/revision/latest?cb=20140715211602)
 
-[Leia em português aqui!](README_pt-br.md)
+[Read it in english here!](README.md)
 
 # 🏴‍☠️ Trafalgar Log
-Trafalgar Log is a Python Framework that standardize JSON Logs and make it 
-easy to use. Its main goal is to abstract log implementation for tools that 
-parse JSON data in log events, such as Splunk, Kibana, CloudWatch Logs, etc.
-This framework was built on top of the packages [logging](https://docs.python.org/3/library/logging.html) and 
-[python-json-logger](https://pypi.org/project/python-json-logger/).
+Trafalgar Log é um Framework Python que padroniza JSON Logs e simplifica a 
+forma de usá-lo. Seu objetivo principal é abstrair a implementação de logs 
+para ferramentas que realizam o parse de dados em formato JSON em eventos 
+de logs, como o Splunk, Kibana, CloudWatch Logs, etc.
+Esse framework foi construído usando como base os pacotes [logging](https://docs.python.org/3/library/logging.html) and [python-json-logger](https://pypi.org/project/python-json-logger/).
 
-## 🧬 Log Structure
-Below is a detailed section about each field printed when you use Trafalgar 
-Log:
+## 🧬 Estrutura do log
+Abaixo está uma seção detalhada sobre cada campo logado quando você usa a Trafalgar Log:
 
-| Responsible | Field name         | Description                                                                                                                                                                        |
+| Responsável | Nome do campo      | Descrição                                                                                                                                                                          |
 |:-----------:|:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|      ✍      | **app**            | Represents the application name that generated the log event.                                                                                                                      |
+|      ✍      | **app**            | Representa o nome da aplicação que gerou o evento de log.                                                                                                                          |
 |     🍕      | **flow**           | This field should be used as an identifier of who estimulated the application to start the execution which is being logged.                                                        |
-|    🐻‍❄     | **code_line**      | Code line that the log event occurred.                                                                                                                                             |
+|    🐻‍❄     | **code_line**      | Code line that the log event occurred                                                                                                                                              |
 |     🍕      | **correlation_id** | ID used to trace a single execution, end-to-end.                                                                                                                                   |
 |    🐻‍❄     | **date_time**      | Datetime of the log event on the format yyyy-MM-dd hh:mm:ss.S - e.g., 2022-09-18 19:25:43.749                                                                                      |
 |      ✍      | **domain**         | Application domain that can be used to represent the functional domain of the application.                                                                                         |
 |     🍕      | **instance_id**    | ID used to represent the application instance; it can be an IP Address, an ID of a lambda funcion instance, etc.                                                                   |
 |     💻      | **log_code**       | A String that represents a general purpose of the log event; it can be used to represent all logs of a database, for example.                                                      |
-|     💻      | **log_message**    | The log message that you want to print.                                                                                                                                            |
+|     💻      | **log_message**    | The log message that you want to print                                                                                                                                             |
 |     💻      | **payload**        | This can be literally anything; if it is a primitive type, it will be printed as it is, but if it is a complex object, a list or even a dict, it will be printed as a JSON object. |
 |    🐻‍❄     | **severity**       | The log level of the log event.                                                                                                                                                    |
 |    🐻‍❄     | **timestamp**      | Timestamp of the log event in miliseconds.                                                                                                                                         |
 
-### Table legend
+### Legenda da tabela
 
-| Legend | Description                                                                                                         |
-|:------:|:--------------------------------------------------------------------------------------------------------------------|
-|   ✍️   | You are responsible for configuring this field through environment variable ([see section](#environment-variables)) |
-| 🐻‍❄️  | This field is automatically filled in each log event.                                                               |
-|   💻   | When you code your log event, you will need to pass this field to log method ([see section](#logging-events))       |
-|   🍕   | This field is optional, but makes your log easier to analyse ([see section](#optional-fields))                      |
+| Legenda | Descrição                                                                                                          |
+|:-------:|:-------------------------------------------------------------------------------------------------------------------|
+|   ✍️    | You are responsible for configuring this field through environment variable ([veja seção](#environment-variables)) |
+|  🐻‍❄️  | This field is automatically filled in each log event.                                                              |
+|   💻    | When you code your log event, you will need to pass this field to log method ([veja seção](#logging-events))       |
+|   🍕    | This field is optional, but makes your log easier to analyse ([veja seção](#optional-fields))                      |
 
 
-## ⚙️ Configuration
-### Environment variables
+## ⚙️ Configuração
+### Variáveis de ambiente
 For Trafalgar Log work in your application, you need to add these 
 environment variables:
-- **TRA_LOG_APP_NAME (mandatory):** This is the environment variable that 
+- **TRA_LOG_APP_NAME (obrigatório):** This is the environment variable that 
   will be used as the **app** field in the log event.
-- **TRA_LOG_DOMAIN (mandatory):** This is the environment variable that will be used 
+- **TRA_LOG_DOMAIN (obrigatório):** This is the environment variable that will be used 
   as the **domain** field in the log event.
-- **TRA_LOG_LEVEL (optional):** This will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); the accepted values for this variable are as follows:
+- **TRA_LOG_LEVEL (opcional):** This will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); the accepted values for this variable are as follows:
   - INFO
   - DEBUG
   - WARNING
@@ -55,7 +54,7 @@ environment variables:
   - CRITICAL
   - NOTSET
   For more information, please visit [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_FIELDS_TO_MASK (optional):** If your application has sensitive 
+- **TRA_LOG_FIELDS_TO_MASK (opcional):** If your application has sensitive 
   data being logged, you might want to list all fields that holds these sensitive data 
   and set this variable with them. For example, if your application logs a 
   brazilian document ID (CPF) and a log event have a field called "CPF" and 
@@ -85,7 +84,7 @@ environment variables:
   Trafalgar Log already has some fields that are always ommited, such as 
   "password", "senha" and "contraseña".
 
-### Logging events
+### Logando eventos
 
 Here are some examples of all types os logs that Trafalgar Log can print 
 (this is just a code snippet only to exemplify how to use this package):
@@ -125,7 +124,7 @@ def get_contributor_data(contributor_id: str) -> Optional[dict]:
     return None
 ```
 
-### Optional fields
+### Campos opcionais
 The three optional fields below should be set at the beginning of the 
 process, so all subsequent log events share the same data.
 
@@ -159,7 +158,7 @@ process, so all subsequent log events share the same data.
   Logger.set_instance_id("put here the desired instance_id")
   ```
 
-## Exception logging
+## Logando exceções
 Every time that you want to log an exception, you should use the method 
 Logger.error() or Logger.critical() for two reasons:
 1. Convention
