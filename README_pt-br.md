@@ -1,7 +1,9 @@
 
 [Read it in english here!](README.md)
 
-![law jolly roger](https://static.wikia.nocookie.net/onepiece/images/7/76/Heart_Pirates%27_Jolly_Roger.png/revision/latest?cb=20140715211602)
+<p align="center">
+  <img src="https://static.wikia.nocookie.net/onepiece/images/7/76/Heart_Pirates%27_Jolly_Roger.png/revision/latest?cb=20140715211602" />
+</p>
 
 # 🏴‍☠️ Trafalgar Log
 Trafalgar Log é um Framework Python que padroniza JSON Logs e simplifica a 
