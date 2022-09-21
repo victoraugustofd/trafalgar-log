@@ -12,7 +12,8 @@ HERE = pathlib.Path(__file__).parent
 to_remove = "\r\n[Leia em português aqui!](README_pt-br.md)\r\n\r\n"
 
 # The text of the README file
-README = (HERE / "README.md").read_text().replace(to_remove, "")
+README = (HERE / "README.md").read_text()
+print(README)
 TEST_PYPI_URL = "https://test.pypi.org"
 PYPI_URL = "https://pypi.org"
 PACKAGE_ENDPOINT = "/pypi/trafalgar-log/json"
