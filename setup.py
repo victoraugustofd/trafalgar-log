@@ -9,7 +9,7 @@ from uplink import Consumer, get, response_handler
 HERE = pathlib.Path(__file__).parent
 
 # Text to remove
-to_remove = "\r\n[Leia em portugu\xc3\xaas aqui!](README_pt-br.md)\r\n\r\n"
+to_remove = "\r\n[Leia em português aqui!](README_pt-br.md)\r\n\r\n"
 
 # The text of the README file
 README = (HERE / "README.md").read_text().replace(to_remove, "")
