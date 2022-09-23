@@ -48,7 +48,8 @@ essas variáveis de ambiente:
   será usada no campo **app** no evento de log.
 - **TRA_LOG_DOMAIN (obrigatório):** Essa é a variável de ambiente que 
   será usada no campo **domain** no evento de log.
-- **TRA_LOG_LEVEL (opcional):** Essa variável será usada para atributo [o nível do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
+- **TRA_LOG_HAKI (opcional):** Essa variável será usada para atributo [o nível 
+  do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
   os valores aceitos para essa variável são:
   - INFO
   - DEBUG
@@ -57,13 +58,13 @@ essas variáveis de ambiente:
   - CRITICAL
   - NOTSET
   Para mais informações, visite [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_FIELDS_TO_MASK (opcional):** Se a sua aplicação possui dados 
+- **TRA_LOG_SHAMBLES (opcional):** Se a sua aplicação possui dados 
   sensíveis sendo logados, você pode querer listar todos os campos que 
   guardam esses dados sensíveis e colocá-los nessa variável. Por exemplo, 
   se a sua aplicação loga o documento de uma pessoa e o evento de log 
   possui um campo chamado "CPF" e outro campo chamado "senha", você pode 
   mascarar o conteúdo desses campos atribuindo um valor a essa 
-  variável de ambiente da seguinte forma: TRA_LOG_FIELDS_TO_MASK="cpf,senha". 
+  variável de ambiente da seguinte forma: TRA_LOG_SHAMBLES="cpf,senha". 
   O evento de log será logado dessa forma:
   ```json
   {

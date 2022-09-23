@@ -45,7 +45,7 @@ For Trafalgar Log work in your application, you need to add these environment va
   will be used as the **app** field in the log event.
 - **TRA_LOG_DOMAIN (mandatory):** This is the environment variable that 
   will be used as the **domain** field in the log event.
-- **TRA_LOG_LEVEL (optional):** This will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
+- **TRA_LOG_HAKI (optional):** This will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
   the accepted values for this variable are as follows:
   - INFO
   - DEBUG
@@ -54,13 +54,13 @@ For Trafalgar Log work in your application, you need to add these environment va
   - CRITICAL
   - NOTSET
   For more information, please visit [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_FIELDS_TO_MASK (optional):** If your application has sensitive 
+- **TRA_LOG_SHAMBLES (optional):** If your application has sensitive 
   data being logged, you might want to list all fields that holds these 
   sensitive data and set this variable with them. For example, if your 
   application logs a brazilian document ID (CPF) and a log event have a 
   field called "CPF" and another field called "password", you can mask its 
   content by setting your environment variable like this: 
-  TRA_LOG_FIELDS_TO_MASK="cpf,password" (note that each field is comma separated).
+  TRA_LOG_SHAMBLES="cpf,password" (note that each field is comma separated).
   The log event will be printed like this:
   ```json
   {

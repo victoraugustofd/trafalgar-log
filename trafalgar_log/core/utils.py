@@ -4,14 +4,13 @@ import logging
 import os
 import sys
 from datetime import datetime
-from inspect import FrameInfo
 from logging import Logger, LogRecord, StreamHandler
-from typing import Dict, Any, List
-from uuid import uuid4
+from types import FrameType
+from typing import Any, NoReturn, Union
 
 from pythonjsonlogger.jsonlogger import JsonFormatter
 
-from trafalgar_log.app import SETTINGS, DEFAULT_FIELDS_TO_MASK
+from trafalgar_log.app import SETTINGS, DEFAULT_FIELDS_TO_SHAMBLE
 from trafalgar_log.core.enums import LogFields
 
 APP: str = LogFields.APP.value
@@ -26,37 +25,39 @@ LOG_MESSAGE: str = LogFields.LOG_MESSAGE.value
 PAYLOAD: str = LogFields.PAYLOAD.value
 SEVERITY: str = LogFields.SEVERITY.value
 TIMESTAMP: str = LogFields.TIMESTAMP.value
-ALL_FIELDS_TO_MASK: list[str] = DEFAULT_FIELDS_TO_MASK
-ALL_FIELDS_TO_MASK.extend(SETTINGS.get("FIELDS_TO_MASK").split(","))
-FIELDS_TO_MASK = [field.strip().lower() for field in ALL_FIELDS_TO_MASK]
-MASK_CHARACTER = "*"
+ALL_FIELDS_TO_SHAMBLE: list[str] = DEFAULT_FIELDS_TO_SHAMBLE
+ALL_FIELDS_TO_SHAMBLE.extend(SETTINGS.get("SHAMBLES").split(","))
+FIELDS_TO_SHAMBLE = [field.strip().lower() for field in ALL_FIELDS_TO_SHAMBLE]
+SHAMBLE_CHARACTER = "*"
 
 
 class CustomJsonFormatter(JsonFormatter):
     def add_fields(
         self,
-        log_record: Dict[str, Any],
+        log_record: dict[str, Any],
         record: LogRecord,
-        message_dict: Dict[str, Any],
-    ):
+        message_dict: dict[str, Any],
+    ) -> NoReturn:
+        from trafalgar_log.core.logger import Logger
+
         super(CustomJsonFormatter, self).add_fields(
             log_record, record, message_dict
         )
 
         log_record[APP] = SETTINGS.get("APP_NAME")
-        log_record[FLOW] = os.getenv(FLOW, "NOT_SET")
+        log_record[FLOW] = Logger.get_flow()
         log_record[CODE_LINE] = _get_code_line()
+        log_record[CORRELATION_ID] = Logger.get_correlation_id()
         log_record[DATE_TIME] = _get_date_time(record)
         log_record[DOMAIN] = SETTINGS.get(DOMAIN)
-        log_record[INSTANCE_ID] = os.getenv(INSTANCE_ID, "NOT_SET")
+        log_record[INSTANCE_ID] = Logger.get_instance_id()
         log_record[LOG_MESSAGE] = record.message
         log_record[TIMESTAMP] = _get_timestamp(record)
 
-        _set_correlation_id(log_record)
         _set_stacktrace(log_record)
 
 
-def _get_os_paths():
+def _get_os_paths() -> list[str]:
     return [
         "".join([path, os.sep])
         for path in sorted(
@@ -66,67 +67,57 @@ def _get_os_paths():
     ]
 
 
-def _find_relative_path(a, pathname):
+def _find_relative_path(frame: FrameType) -> str:
+    # ensure that the path separator is always the os separator
+    pathname = frame.f_code.co_filename.replace("/", os.sep)
+    file_name = os.path.basename(frame.f_code.co_filename)
+
     return next(
         os.path.relpath(pathname, path)
-        for path in a
+        for path in OS_PATHS
         if pathname.startswith(path)
+        and file_name != os.path.relpath(pathname, path)
     )
 
 
-def _get_code_line():
-    stack = _find_log_caller_stack()
+def _get_code_line() -> str:
+    frame = _find_log_caller_frame()
 
-    # ensure that the path separator is always the os separator
-    pathname = stack.filename.replace("/", os.sep)
-    relativepath = _find_relative_path(_get_os_paths(), pathname)
+    relativepath = _find_relative_path(frame)
 
     return (
         f"{relativepath.replace(os.sep, '/')} - "
-        f"{stack.function}:{stack.lineno}"
+        f"{frame.f_code.co_name}:{frame.f_lineno}"
     )
 
 
-def _find_log_caller_stack():
-    stacks: List[FrameInfo] = inspect.stack()
-    log_stack_index = [
-        index
-        for index, stack in enumerate(stacks)
-        if stack.function == "_do_log"
-    ][0]
-
-    # since the caller method is always _do_log and it is called from
-    # one of the _logger methods, the real caller is always two (2) stacks
-    # before _do_log stack
-    return stacks[log_stack_index + 2]
+def _find_log_caller_frame() -> FrameType:
+    frame: FrameType = inspect.currentframe()
+    while frame:
+        if frame.f_code.co_name == "_do_log":  # customize
+            # since the caller method is always _do_log and it is called from
+            # one of the _logger methods, the real caller is always two (2)
+            # stacks before _do_log stack
+            return frame.f_back.f_back
+        frame = frame.f_back
 
 
-def _get_date_time(record: LogRecord):
+def _get_date_time(record: LogRecord) -> str:
     return datetime.fromtimestamp(record.created, tz=None).isoformat(
         sep=" ", timespec="milliseconds"
     )
 
 
-def _get_timestamp(record: LogRecord):
+def _get_timestamp(record: LogRecord) -> int:
     return int(record.created * 1000)
 
 
-def _set_correlation_id(log_record: Dict[str, Any]):
-    correlation_id: str = os.getenv(CORRELATION_ID)
-
-    if not correlation_id:
-        correlation_id = str(uuid4())
-        os.environ[CORRELATION_ID] = correlation_id
-
-    log_record[CORRELATION_ID] = correlation_id
-
-
-def _set_stacktrace(log_record: Dict[str, Any]):
+def _set_stacktrace(log_record: dict[str, Any]) -> NoReturn:
     if log_record.get("exc_info"):
         log_record["stacktrace"] = log_record.pop("exc_info").split("\n")
 
 
-def _get_format():
+def _get_format() -> str:
     return " ".join([f"%({log_field.value})" for log_field in LogFields])
 
 
@@ -134,7 +125,7 @@ def _get_formatter() -> CustomJsonFormatter:
     return CustomJsonFormatter(_get_format())
 
 
-def _remove_handlers():
+def _remove_handlers() -> NoReturn:
     root = logging.getLogger()
 
     if root.handlers:
@@ -142,38 +133,39 @@ def _remove_handlers():
             root.removeHandler(handler)
 
 
-def _get_handler():
+def _get_handler() -> StreamHandler:
     log_handler = StreamHandler()
     log_handler.setFormatter(_get_formatter())
     return log_handler
 
 
-def initialize_logger() -> Logger:
-    # remove handlers to avoid conflict and log duplication
-    # refs.: https://stackoverflow.com/a/45624044/7973282
-    _remove_handlers()
-
-    logger = logging.getLogger(SETTINGS.get("APP_NAME"))
-    logger.addHandler(_get_handler())
-    logger.setLevel(logging.getLevelName(SETTINGS.get("LOG_LEVEL")))
-
-    return logger
+def _shamble_list(value: list) -> list:
+    return [SHAMBLE_CHARACTER for _ in value]
 
 
-def _mask_list(value: list) -> list:
-    return [MASK_CHARACTER for _ in value]
+def _is_iterable(obj) -> bool:
+    try:
+        iter(obj)
+        return True
+    except TypeError:
+        return False
 
 
-def is_primitive(obj):
-    return not hasattr(obj, "__dict__")
+def _is_primitive(obj) -> bool:
+    return isinstance(obj, str) or (
+        not hasattr(obj, "__dict__") and not _is_iterable(obj)
+    )
 
 
-def _should_mask_primitive_value(key, value):
-    return is_primitive(value) and key.lower() in FIELDS_TO_MASK
+def _should_shamble_primitive_value(key, value) -> bool:
+    return _is_primitive(value) and key.lower() in FIELDS_TO_SHAMBLE
 
 
-def _mask_fields(payload) -> dict:
-    return _dict_replace_value(payload)
+def _shamble_fields(payload) -> dict:
+    if isinstance(payload, dict):
+        return _dict_replace_value(payload)
+
+    return payload
 
 
 # refs.: https://stackoverflow.com/a/60776516/7973282
@@ -184,22 +176,37 @@ def _dict_replace_value(payload) -> dict:
         if isinstance(value, dict):
             value = _dict_replace_value(value)
         elif isinstance(value, list):
-            value = _mask_list(value)
-        elif _should_mask_primitive_value(key, value):
-            value = MASK_CHARACTER
+            value = _shamble_list(value)
+        elif _should_shamble_primitive_value(key, value):
+            value = SHAMBLE_CHARACTER
         new_payload[key] = value
     return new_payload
 
 
-def get_payload(payload: object) -> dict:
-    return _mask_fields(
-        json.loads(
-            json.dumps(
-                payload,
-                skipkeys=True,
-                default=lambda o: o.__dict__
-                if hasattr(o, "__dict__")
-                else str(o),
-            )
-        ),
+def _to_json(payload: object) -> Union[str, dict]:
+    return json.loads(
+        json.dumps(
+            payload,
+            skipkeys=True,
+            default=lambda o: o.__dict__ if hasattr(o, "__dict__") else str(o),
+        )
     )
+
+
+def get_payload(payload: object) -> Union[object, dict]:
+    return _shamble_fields(_to_json(payload))
+
+
+def initialize_logger() -> Logger:
+    # remove handlers to avoid conflict and log duplication
+    # refs.: https://stackoverflow.com/a/45624044/7973282
+    _remove_handlers()
+
+    logger = logging.getLogger(SETTINGS.get("APP_NAME"))
+    logger.addHandler(_get_handler())
+    logger.setLevel(logging.getLevelName(SETTINGS.get("HAKI")))
+
+    return logger
+
+
+OS_PATHS = _get_os_paths()
