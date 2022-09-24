@@ -71,12 +71,12 @@ def _find_relative_path(record: LogRecord) -> str:
     pathname = record.pathname.replace("/", os.sep)
     file_name = os.path.basename(record.filename)
 
-    return next(
+    return [
         os.path.relpath(pathname, path)
         for path in OS_PATHS
         if pathname.startswith(path)
         and file_name != os.path.relpath(pathname, path)
-    )
+    ][0]
 
 
 def _get_code_line(record: LogRecord) -> str:
