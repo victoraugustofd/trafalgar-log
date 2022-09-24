@@ -26,7 +26,7 @@ Below is a detailed section about each field printed when you use Trafalgar Log:
 |     💻      | **log_message**    | The log message that you want to print.                                                                                                                                            |
 |     💻      | **payload**        | This can be literally anything; if it is a primitive type, it will be printed as it is, but if it is a complex object, a list or even a dict, it will be printed as a JSON object. |
 |    🐻‍❄     | **severity**       | The log level of the log event.                                                                                                                                                    |
-|    🐻‍❄     | **timestamp**      | Timestamp of the log event in miliseconds.                                                                                                                                         |
+|    🐻‍❄     | **timestamp**      | Timestamp of the log event in milliseconds.                                                                                                                                        |
 
 ### Table legend
 

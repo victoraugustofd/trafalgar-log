@@ -1,11 +1,9 @@
-import inspect
 import json
 import logging
 import os
 import sys
 from datetime import datetime
 from logging import Logger, LogRecord, StreamHandler
-from types import FrameType
 from typing import Any, NoReturn, Union
 
 from pythonjsonlogger.jsonlogger import JsonFormatter
@@ -25,13 +23,14 @@ LOG_MESSAGE: str = LogFields.LOG_MESSAGE.value
 PAYLOAD: str = LogFields.PAYLOAD.value
 SEVERITY: str = LogFields.SEVERITY.value
 TIMESTAMP: str = LogFields.TIMESTAMP.value
+STACKTRACE: str = "stacktrace"
 ALL_FIELDS_TO_SHAMBLE: list[str] = DEFAULT_FIELDS_TO_SHAMBLE
 ALL_FIELDS_TO_SHAMBLE.extend(SETTINGS.get("SHAMBLES").split(","))
 FIELDS_TO_SHAMBLE = [field.strip().lower() for field in ALL_FIELDS_TO_SHAMBLE]
 SHAMBLE_CHARACTER = "*"
 
 
-class CustomJsonFormatter(JsonFormatter):
+class TrafalgarLogFormatter(JsonFormatter):
     def add_fields(
         self,
         log_record: dict[str, Any],
@@ -40,13 +39,13 @@ class CustomJsonFormatter(JsonFormatter):
     ) -> NoReturn:
         from trafalgar_log.core.logger import Logger
 
-        super(CustomJsonFormatter, self).add_fields(
+        super(TrafalgarLogFormatter, self).add_fields(
             log_record, record, message_dict
         )
 
         log_record[APP] = SETTINGS.get("APP_NAME")
         log_record[FLOW] = Logger.get_flow()
-        log_record[CODE_LINE] = _get_code_line()
+        log_record[CODE_LINE] = _get_code_line(record)
         log_record[CORRELATION_ID] = Logger.get_correlation_id()
         log_record[DATE_TIME] = _get_date_time(record)
         log_record[DOMAIN] = SETTINGS.get(DOMAIN)
@@ -67,10 +66,10 @@ def _get_os_paths() -> list[str]:
     ]
 
 
-def _find_relative_path(frame: FrameType) -> str:
+def _find_relative_path(record: LogRecord) -> str:
     # ensure that the path separator is always the os separator
-    pathname = frame.f_code.co_filename.replace("/", os.sep)
-    file_name = os.path.basename(frame.f_code.co_filename)
+    pathname = record.pathname.replace("/", os.sep)
+    file_name = os.path.basename(record.filename)
 
     return next(
         os.path.relpath(pathname, path)
@@ -80,26 +79,13 @@ def _find_relative_path(frame: FrameType) -> str:
     )
 
 
-def _get_code_line() -> str:
-    frame = _find_log_caller_frame()
-
-    relativepath = _find_relative_path(frame)
+def _get_code_line(record: LogRecord) -> str:
+    relativepath = _find_relative_path(record)
 
     return (
         f"{relativepath.replace(os.sep, '/')} - "
-        f"{frame.f_code.co_name}:{frame.f_lineno}"
+        f"{record.funcName}:{record.lineno}"
     )
-
-
-def _find_log_caller_frame() -> FrameType:
-    frame: FrameType = inspect.currentframe()
-    while frame:
-        if frame.f_code.co_name == "_do_log":  # customize
-            # since the caller method is always _do_log and it is called from
-            # one of the _logger methods, the real caller is always two (2)
-            # stacks before _do_log stack
-            return frame.f_back.f_back
-        frame = frame.f_back
 
 
 def _get_date_time(record: LogRecord) -> str:
@@ -114,15 +100,15 @@ def _get_timestamp(record: LogRecord) -> int:
 
 def _set_stacktrace(log_record: dict[str, Any]) -> NoReturn:
     if log_record.get("exc_info"):
-        log_record["stacktrace"] = log_record.pop("exc_info").split("\n")
+        log_record[STACKTRACE] = log_record.pop("exc_info").split("\n")
 
 
 def _get_format() -> str:
     return " ".join([f"%({log_field.value})" for log_field in LogFields])
 
 
-def _get_formatter() -> CustomJsonFormatter:
-    return CustomJsonFormatter(_get_format())
+def _get_formatter() -> TrafalgarLogFormatter:
+    return TrafalgarLogFormatter(_get_format())
 
 
 def _remove_handlers() -> NoReturn:

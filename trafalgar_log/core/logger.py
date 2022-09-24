@@ -107,6 +107,6 @@ class Logger(object):
         }
 
         if level in [ERROR, CRITICAL]:
-            _logger.exception(log_message, **extra_fields)
+            _logger.exception(log_message, **extra_fields, stacklevel=4)
         else:
-            _logger.log(level, log_message, **extra_fields)
+            _logger.log(level, log_message, **extra_fields, stacklevel=3)

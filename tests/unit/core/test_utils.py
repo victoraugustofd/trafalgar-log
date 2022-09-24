@@ -6,7 +6,7 @@ from trafalgar_log.app import SETTINGS
 from trafalgar_log.core.utils import (
     initialize_logger,
     get_payload,
-    CustomJsonFormatter,
+    TrafalgarLogFormatter,
 )
 
 
@@ -16,7 +16,7 @@ def test_initialize_logger() -> NoReturn:
     assert logger.name == SETTINGS.get("APP_NAME")
     assert logging.getLevelName(logger.level) == SETTINGS.get("HAKI")
     assert len(logger.handlers) == 1
-    assert isinstance(logger.handlers[0].formatter, CustomJsonFormatter)
+    assert isinstance(logger.handlers[0].formatter, TrafalgarLogFormatter)
 
 
 def test_get_payload() -> NoReturn:

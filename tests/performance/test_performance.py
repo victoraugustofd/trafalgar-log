@@ -1,3 +1,5 @@
+import cProfile
+
 import pytest
 
 from tests.performance.models import (
@@ -6,7 +8,6 @@ from tests.performance.models import (
     PerformanceDataTest,
 )
 from trafalgar_log.core.logger import Logger
-
 
 lorem_ipsum = {
     "a": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc id cursus metus aliquam. Id aliquet lectus proin nibh. Nulla facilisi etiam dignissim diam quis enim lobortis. Praesent tristique magna sit amet purus. At augue eget arcu dictum varius. Eu consequat ac felis donec et odio pellentesque diam volutpat. At tellus at urna condimentum mattis pellentesque id nibh. Laoreet non curabitur gravida arcu ac. Sem et tortor consequat id porta nibh venenatis cras.",
@@ -39,6 +40,8 @@ lorem_ipsum = {
 
 z = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tristique sollicitudin nibh sit amet commodo nulla facilisi. Ligula ullamcorper malesuada proin libero nunc consequat interdum. Purus faucibus ornare suspendisse sed nisi lacus sed. Ut consequat semper viverra nam libero justo laoreet sit. Risus sed vulputate odio ut enim blandit volutpat maecenas volutpat. Dignissim suspendisse in est ante. Gravida neque convallis a cras semper auctor neque vitae. Amet consectetur adipiscing elit duis tristique sollicitudin nibh sit. Integer quis auctor elit sed vulputate mi. Massa sapien faucibus et molestie ac feugiat. Orci a scelerisque purus semper. Amet purus gravida quis blandit turpis cursus in hac. Ullamcorper sit amet risus nullam eget. Ornare quam viverra orci sagittis eu. Rhoncus est pellentesque elit ullamcorper. Luctus accumsan tortor posuere ac ut consequat semper."
 LOG_CODE: str = "Testing performance"
+TIMEOUT: int = 16
+NUMBER_OF_ITERATIONS = 1
 
 
 def _build_performance_second_inner_data_test() -> PerformanceSecondInnerDataTest:
@@ -59,26 +62,26 @@ def _build_performance_data_test() -> PerformanceDataTest:
     return data
 
 
-@pytest.mark.timeout(20)
+@pytest.mark.timeout(TIMEOUT)
 def test_performance():
     i: int = 0
 
     a: PerformanceDataTest = _build_performance_data_test()
     Logger.set_correlation_id("1")
 
-    while i < 1000:
+    while i < NUMBER_OF_ITERATIONS:
         Logger.info(LOG_CODE, f"Testing performance {i}", a)
         i += 1
 
 
-@pytest.mark.timeout(20)
+@pytest.mark.timeout(TIMEOUT)
 def test_performance_exception():
     i: int = 0
 
     a: PerformanceDataTest = _build_performance_data_test()
     b: dict = {}
 
-    while i < 1000:
+    while i < NUMBER_OF_ITERATIONS:
         Logger.info(LOG_CODE, f"Testing performance {i}", a)
 
         try:
@@ -86,3 +89,8 @@ def test_performance_exception():
         except KeyError as e:
             Logger.error(LOG_CODE, f"Testing performance {i}", str(e))
         i += 1
+
+
+if __name__ == "__main__":
+    cProfile.run("test_performance()")
+    cProfile.run("test_performance_exception()")
