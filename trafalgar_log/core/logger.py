@@ -48,7 +48,7 @@ class Logger(object):
     def set_correlation_id(correlation_id: str) -> NoReturn:
         try:
             UUID(correlation_id, version=4)
-        except ValueError:
+        except (ValueError, AttributeError):
             old_correlation_id = correlation_id
             correlation_id = str(uuid4())
             Logger.warn(

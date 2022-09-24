@@ -67,7 +67,6 @@ def test_performance():
     i: int = 0
 
     a: PerformanceDataTest = _build_performance_data_test()
-    Logger.set_correlation_id("1")
 
     while i < NUMBER_OF_ITERATIONS:
         Logger.info(LOG_CODE, f"Testing performance {i}", a)
