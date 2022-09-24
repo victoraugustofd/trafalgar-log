@@ -8,10 +8,11 @@
 !.github/workflows/*.yml
 !trafalgar_log/**/*.py
 !tests/**/*.py
+!tests/**/*.env
 
 # accept files in root
 !/.gitignore
-!README.md
+!README*.md
 !LICENSE
 !setup.py
 !pyproject.toml

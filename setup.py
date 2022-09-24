@@ -8,8 +8,11 @@ from uplink import Consumer, get, response_handler
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
 
+# Text to remove
+to_remove = "\n## [Leia em português aqui!](README_pt-br.md)\n\n"
+
 # The text of the README file
-README = (HERE / "README.md").read_text()
+README = (HERE / "README.md").read_text().replace(to_remove, "")
 TEST_PYPI_URL = "https://test.pypi.org"
 PYPI_URL = "https://pypi.org"
 PACKAGE_ENDPOINT = "/pypi/trafalgar-log/json"
@@ -58,6 +61,7 @@ def _is_versions_equals(version_a, version_b):
 def _define_version(
     test_pypi_version: VersionInfo, pypi_version: VersionInfo
 ) -> VersionInfo:
+    version: VersionInfo = VersionInfo.parse("1.0.0-rc.1")
     env: str = os.getenv("ENV")
     test_pypi_version_without_prerelease = VersionInfo(
         major=test_pypi_version.major,
@@ -65,24 +69,29 @@ def _define_version(
         patch=test_pypi_version.patch,
     )
 
-    if not test_pypi_version and not pypi_version:
-        return VersionInfo.parse("1.0.0-rc.1")
+    if test_pypi_version or pypi_version:
+        if _is_dev_env(env):
+            if not pypi_version or not _is_versions_equals(
+                test_pypi_version_without_prerelease, pypi_version
+            ):
+                version = test_pypi_version.next_version(part="prerelease")
+            else:
+                version = test_pypi_version.bump_minor().bump_prerelease()
+        if _is_main_env(env):
+            version = test_pypi_version.finalize_version()
 
-    if _is_dev_env(env):
-        if not pypi_version or not _is_versions_equals(
-            test_pypi_version_without_prerelease, pypi_version
-        ):
-            return test_pypi_version.next_version(part="prerelease")
-        else:
-            return test_pypi_version.bump_minor().bump_prerelease()
-    if _is_main_env(env):
-        return test_pypi_version.finalize_version()
+    print(f"Defined version: {version}")
+
+    return version
 
 
 def _get_version() -> str:
     version: VersionInfo
     test_pypi_version: VersionInfo = TEST_PYPI_ADAPTER.get_version()
     pypi_version: VersionInfo = PYPI_ADAPTER.get_version()
+
+    print(f"Test PyPI Version: {test_pypi_version}")
+    print(f"PyPI Version: {pypi_version}")
 
     return str(_define_version(test_pypi_version, pypi_version))
 
@@ -101,12 +110,12 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: System :: Logging",
     ],
     keywords="logs",
     packages=find_packages(exclude="tests"),
-    python_requires=">=3.7, <4",
+    python_requires=">=3.8, <4",
     install_requires=["semver", "uplink", "dynaconf", "python-json-logger"],
     license="MIT",
 )
