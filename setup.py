@@ -111,12 +111,12 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: System :: Logging",
     ],
     keywords="logs",
     packages=find_packages(exclude="tests"),
-    python_requires=">=3.7, <4",
+    python_requires=">=3.8, <4",
     install_requires=["semver", "uplink", "dynaconf", "python-json-logger"],
     license="MIT",
 )
