@@ -2,7 +2,7 @@ from dynaconf import Dynaconf, Validator, ValidationError
 
 from trafalgar_log.core.exceptions import ConfigurationError
 
-DEFAULT_FIELDS_TO_SHAMBLE: list[str] = ["password", "senha", "contraseña"]
+DEFAULT_FIELDS_TO_SHAMBLE: list = ["password", "senha", "contraseña"]
 SETTINGS = Dynaconf(
     envvar_prefix="TRA_LOG",
     load_dotenv=True,
