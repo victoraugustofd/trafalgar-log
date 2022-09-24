@@ -39,6 +39,7 @@ def setup_function():
 
 
 def _set_formatter(caplog: LogCaptureFixture):
+    global _logger
     caplog.handler.setFormatter(_logger.handlers[0].formatter)
 
 

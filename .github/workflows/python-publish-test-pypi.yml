@@ -9,11 +9,14 @@
 name: Upload Python Package
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Python package
     branches:
       - dev
       - main
-  workflow_dispatch:
+    types:
+      - completed
 
 permissions:
   contents: read
