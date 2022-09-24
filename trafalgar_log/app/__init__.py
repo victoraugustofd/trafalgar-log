@@ -13,7 +13,7 @@ SETTINGS = Dynaconf(
             must_exist=True,
         ),
         Validator("HAKI", default="INFO"),
-        Validator("SHAMBLES", default=[]),
+        Validator("SHAMBLES", default=""),
     ],
 )
 
