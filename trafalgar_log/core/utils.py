@@ -24,7 +24,7 @@ PAYLOAD: str = LogFields.PAYLOAD.value
 SEVERITY: str = LogFields.SEVERITY.value
 TIMESTAMP: str = LogFields.TIMESTAMP.value
 STACKTRACE: str = "stacktrace"
-ALL_FIELDS_TO_SHAMBLE: list[str] = DEFAULT_FIELDS_TO_SHAMBLE
+ALL_FIELDS_TO_SHAMBLE: list = DEFAULT_FIELDS_TO_SHAMBLE
 ALL_FIELDS_TO_SHAMBLE.extend(SETTINGS.get("SHAMBLES").split(","))
 FIELDS_TO_SHAMBLE = [field.strip().lower() for field in ALL_FIELDS_TO_SHAMBLE]
 SHAMBLE_CHARACTER = "*"
@@ -56,7 +56,7 @@ class TrafalgarLogFormatter(JsonFormatter):
         _set_stacktrace(log_record)
 
 
-def _get_os_paths() -> list[str]:
+def _get_os_paths() -> list:
     return [
         "".join([path, os.sep])
         for path in sorted(
