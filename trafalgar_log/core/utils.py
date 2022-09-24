@@ -33,9 +33,9 @@ SHAMBLE_CHARACTER = "*"
 class TrafalgarLogFormatter(JsonFormatter):
     def add_fields(
         self,
-        log_record: dict[str, Any],
+        log_record: dict,
         record: LogRecord,
-        message_dict: dict[str, Any],
+        message_dict: dict,
     ) -> NoReturn:
         from trafalgar_log.core.logger import Logger
 
@@ -98,7 +98,7 @@ def _get_timestamp(record: LogRecord) -> int:
     return int(record.created * 1000)
 
 
-def _set_stacktrace(log_record: dict[str, Any]) -> NoReturn:
+def _set_stacktrace(log_record: dict) -> NoReturn:
     if log_record.get("exc_info"):
         log_record[STACKTRACE] = log_record.pop("exc_info").split("\n")
 
