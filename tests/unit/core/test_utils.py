@@ -15,7 +15,6 @@ def test_initialize_logger() -> NoReturn:
 
     assert logger.name == SETTINGS.get("APP_NAME")
     assert logging.getLevelName(logger.level) == SETTINGS.get("HAKI")
-    assert len(logger.handlers) == 1
     assert isinstance(logger.handlers[0].formatter, TrafalgarLogFormatter)
 
 
