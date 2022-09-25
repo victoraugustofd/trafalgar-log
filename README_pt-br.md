@@ -7,20 +7,21 @@
 
 # 🏴‍☠️ Trafalgar Log
 Trafalgar Log é um Framework Python que padroniza JSON Logs e simplifica a 
-forma de usá-lo. Seu objetivo principal é abstrair a implementação de logs 
+forma de usá-lo. O seu objetivo principal é abstrair a implementação de logs 
 para ferramentas que realizam o parse de dados em formato JSON em eventos 
 de logs, como o Splunk, Kibana, CloudWatch Logs, etc.
 Esse framework foi construído usando como base os pacotes [logging](https://docs.python.org/3/library/logging.html) and [python-json-logger](https://pypi.org/project/python-json-logger/).
 
 ## 🧬 Estrutura do log
-Abaixo está uma seção detalhada sobre cada campo logado quando você usa a Trafalgar Log:
+Abaixo está uma seção detalhada sobre cada campo logado quando o Trafalgar 
+Log é utilizado:
 
 | Responsável | Nome do campo      | Descrição                                                                                                                                                                                           |
 |:-----------:|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |      ✍      | **app**            | Representa o nome da aplicação que gerou o evento de log.                                                                                                                                           |
 |     🍕      | **flow**           | Esse campo deve ser usado como um identificador de quem estimulou a aplicação para iniciar a execução que está sendo logada.                                                                        |
-|    🐻‍❄     | **code_line**      | Linha do código onde ocorreu o evento de log.                                                                                                                                                       |
-|     🍕      | **correlation_id** | ID usado para rastrear uma única execução, do começo ao fim.                                                                                                                                        |
+|    🐻‍❄     | **code_line**      | Linha do código onde ocorreu o evento de log; será logado como caminho/para/o/arquivo.py - nome_da_funcao:linha_do_codigo                                                                           |
+|     🍕      | **correlation_id** | ID usado para rastrear uma única execução, do começo ao fim; esse campo é um uuid4.                                                                                                                 |
 |    🐻‍❄     | **date_time**      | Data e hora do evento do log no formato yyyy-MM-dd hh:mm:ss.SSS - exemplo: 2022-09-18 19:25:43.749                                                                                                  |
 |      ✍      | **domain**         | Domínio da aplicação que pode ser usado para representar o domínio funcional da aplicação.                                                                                                          |
 |     🍕      | **instance_id**    | ID usado para representar a instância da aplicação; pode ser um endereço IP, o ID de uma instância de função Lambda, etc.                                                                           |
@@ -30,26 +31,26 @@ Abaixo está uma seção detalhada sobre cada campo logado quando você usa a Tr
 |    🐻‍❄     | **severity**       | O nível do log do evento de log.                                                                                                                                                                    |
 |    🐻‍❄     | **timestamp**      | Timestamp do evento de log em milisegundos.                                                                                                                                                         |
 
-### Legenda da tabela
+### ⚔ Legenda da tabela
 
-| Legenda | Descrição                                                                                                                 |
-|:-------:|:--------------------------------------------------------------------------------------------------------------------------|
-|   ✍️    | Você é responsável por configurar esse campo através de <br/>variáveis de ambiente ([veja seção](#variáveis-de-ambiente)) |
-|  🐻‍❄️  | Esse campo é preenchido automaticamente a cada evento de log.                                                             |
-|   💻    | Quando você codifica um evento de log, passe esse campo para o método de log ([veja seção](#logando-eventos))             |
-|   🍕    | Esse campo é opcional, mas faz com que seu log fique mais fácil de ser analisado ([veja seção](#campos-opcionais))        |
+| Legenda | Descrição                                                                                                             |
+|:-------:|:----------------------------------------------------------------------------------------------------------------------|
+|   ✍️    | Você é responsável por configurar esse campo através de variáveis de ambiente (veja seção 🌌 Variáveis de ambiente)   |
+|  🐻‍❄️  | Esse campo é preenchido automaticamente a cada evento de log.                                                         |
+|   💻    | Quando você codifica um evento de log, passe esse campo para o método de log (veja seção 👨‍💻 Logando eventos 👩‍💻) |
+|   🍕    | Esse campo é opcional, mas faz com que seu log fique mais fácil de ser analisado (veja seção 🤔 Campos opcionais))    |
 
 
 ## ⚙️ Configuração
-### Variáveis de ambiente
-Para o Trafalgar Log funcionar na sua aplicação, você precisa adicionar 
+
+### 🌌 Variáveis de ambiente
+Para o Trafalgar Log funcionar na sua aplicação, é necessário adicionar 
 essas variáveis de ambiente:
-- **TRA_LOG_APP_NAME (obrigatório):** Essa é a variável de ambiente que 
+- **TRA_LOG_APP_NAME (obrigatório):** essa é a variável de ambiente que 
   será usada no campo **app** no evento de log.
-- **TRA_LOG_DOMAIN (obrigatório):** Essa é a variável de ambiente que 
+- **TRA_LOG_DOMAIN (obrigatório):** essa é a variável de ambiente que 
   será usada no campo **domain** no evento de log.
-- **TRA_LOG_HAKI (opcional):** Essa variável será usada para atributo [o nível 
-  do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
+- **TRA_LOG_HAKI (opcional):** essa variável será usada para atributo [o nível do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
   os valores aceitos para essa variável são:
   - INFO
   - DEBUG
@@ -58,7 +59,7 @@ essas variáveis de ambiente:
   - CRITICAL
   - NOTSET
   Para mais informações, visite [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_SHAMBLES (opcional):** Se a sua aplicação possui dados 
+- **TRA_LOG_SHAMBLES (opcional):** se a sua aplicação possui dados 
   sensíveis sendo logados, você pode querer listar todos os campos que 
   guardam esses dados sensíveis e colocá-los nessa variável. Por exemplo, 
   se a sua aplicação loga o documento de uma pessoa e o evento de log 
@@ -89,7 +90,7 @@ essas variáveis de ambiente:
   Trafalgar Log já possui alguns campos que são sempre mascarados, como 
   "password", "senha" and "contraseña".
 
-### Logando eventos
+### 👨‍💻 Logando eventos 👩‍💻
 
 Abaixo estão alguns exemplos de todos os tipos de logs que o Trafalgar Log 
 pode logar (isso é apenas um bloco de código apenas para exemplificar 
@@ -130,11 +131,11 @@ def get_contributor_data(contributor_id: str) -> Optional[dict]:
     return None
 ```
 
-### Campos opcionais
+### 🤔 Campos opcionais
 Os três campos opcionais abaixo devem ser atribuídos no início do processo, 
 para que todos os logs subsequentes compartilhem os mesmos dados.
 
-- **correlation_id**: Esse campo deve ser preenchido com um correlation_id 
+- **correlation_id**: esse campo deve ser preenchido com um correlation_id 
   já predefinido que alguém passou para a aplicação. Se esse campo não for 
   configurado no início da execução, o Trafalgar Log irá gerar um com o método 
   uuid.uuid4().
@@ -145,7 +146,7 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
 
   Logger.set_correlation_id("coloque aqui o correlation_id recebido ou crie um")
   ```
-- **flow:** Se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
+- **flow:** se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
   este campo.
 
   **Implementação**:
@@ -154,7 +155,7 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
 
   Logger.set_flow("coloque aqui o flow desejado")
   ```
-- **instance_id:** Se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
+- **instance_id:** se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
   este campo.
 
   **Implementação**:
@@ -164,12 +165,12 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
   Logger.set_instance_id("put here the desired instance_id")
   ```
 
-## Logando exceções
-Toda vez que você quiser logar uma exceção, você deve usar o método 
+### ❗ Logando exceções
+Todas as vezes que você quiser logar uma exceção, você deve usar o método 
 Logger.error() ou Logger.critical() por dois motivos:
-1. Boas práticas
+1. Boas práticas;
 2. Trafalgar Log está preparado para capturar o stacktrace da exceção com esses 
-   dois métodos e logá-lo como um array de strings, como o exemplo abaixo:
+   dois métodos e logá-lo como um array de strings, conforme exemplo abaixo:
   ```json
   {
     "app": "readme-docs",

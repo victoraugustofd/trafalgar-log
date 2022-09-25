@@ -23,13 +23,12 @@ from trafalgar_log.core.utils import (
     LOG_CODE,
     PAYLOAD,
     SEVERITY,
-    STACKTRACE,
+    STACKTRACE, NOT_SET,
 )
 
 LOG_CODE_TEST: str = "Trafalgar Log Unit Test"
 CODE_LINE_PATTERN = re.compile("^(.*?)\\.py - \\w+:\\d+")
 DATE_TIME_FORMAT: str = "%Y-%m-%d %H:%M:%S.%f"
-NOT_SET: str = "NOT_SET"
 _logger: Logger
 
 
