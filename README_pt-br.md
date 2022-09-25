@@ -7,13 +7,14 @@
 
 # 🏴‍☠️ Trafalgar Log
 Trafalgar Log é um Framework Python que padroniza JSON Logs e simplifica a 
-forma de usá-lo. Seu objetivo principal é abstrair a implementação de logs 
+forma de usá-lo. O seu objetivo principal é abstrair a implementação de logs 
 para ferramentas que realizam o parse de dados em formato JSON em eventos 
 de logs, como o Splunk, Kibana, CloudWatch Logs, etc.
 Esse framework foi construído usando como base os pacotes [logging](https://docs.python.org/3/library/logging.html) and [python-json-logger](https://pypi.org/project/python-json-logger/).
 
 ## 🧬 Estrutura do log
-Abaixo está uma seção detalhada sobre cada campo logado quando você usa a Trafalgar Log:
+Abaixo está uma seção detalhada sobre cada campo logado quando o Trafalgar 
+Log é utilizado:
 
 | Responsável | Nome do campo      | Descrição                                                                                                                                                                                           |
 |:-----------:|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,13 +43,13 @@ Abaixo está uma seção detalhada sobre cada campo logado quando você usa a Tr
 
 ## ⚙️ Configuração
 ### Variáveis de ambiente
-Para o Trafalgar Log funcionar na sua aplicação, você precisa adicionar 
+Para o Trafalgar Log funcionar na sua aplicação, é necessário adicionar 
 essas variáveis de ambiente:
-- **TRA_LOG_APP_NAME (obrigatório):** Essa é a variável de ambiente que 
+- **TRA_LOG_APP_NAME (obrigatório):** essa é a variável de ambiente que 
   será usada no campo **app** no evento de log.
-- **TRA_LOG_DOMAIN (obrigatório):** Essa é a variável de ambiente que 
+- **TRA_LOG_DOMAIN (obrigatório):** essa é a variável de ambiente que 
   será usada no campo **domain** no evento de log.
-- **TRA_LOG_HAKI (opcional):** Essa variável será usada para atributo [o nível do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
+- **TRA_LOG_HAKI (opcional):** essa variável será usada para atributo [o nível do log](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
   os valores aceitos para essa variável são:
   - INFO
   - DEBUG
@@ -57,7 +58,7 @@ essas variáveis de ambiente:
   - CRITICAL
   - NOTSET
   Para mais informações, visite [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_SHAMBLES (opcional):** Se a sua aplicação possui dados 
+- **TRA_LOG_SHAMBLES (opcional):** se a sua aplicação possui dados 
   sensíveis sendo logados, você pode querer listar todos os campos que 
   guardam esses dados sensíveis e colocá-los nessa variável. Por exemplo, 
   se a sua aplicação loga o documento de uma pessoa e o evento de log 
@@ -133,7 +134,7 @@ def get_contributor_data(contributor_id: str) -> Optional[dict]:
 Os três campos opcionais abaixo devem ser atribuídos no início do processo, 
 para que todos os logs subsequentes compartilhem os mesmos dados.
 
-- **correlation_id**: Esse campo deve ser preenchido com um correlation_id 
+- **correlation_id**: esse campo deve ser preenchido com um correlation_id 
   já predefinido que alguém passou para a aplicação. Se esse campo não for 
   configurado no início da execução, o Trafalgar Log irá gerar um com o método 
   uuid.uuid4().
@@ -144,7 +145,7 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
 
   Logger.set_correlation_id("coloque aqui o correlation_id recebido ou crie um")
   ```
-- **flow:** Se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
+- **flow:** se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
   este campo.
 
   **Implementação**:
@@ -153,7 +154,7 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
 
   Logger.set_flow("coloque aqui o flow desejado")
   ```
-- **instance_id:** Se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
+- **instance_id:** se não for configurado, o Trafalgar Log irá atribuir o valor NOT_SET a 
   este campo.
 
   **Implementação**:
@@ -164,9 +165,9 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
   ```
 
 ## ❗ Logando exceções
-Toda vez que você quiser logar uma exceção, você deve usar o método 
+Todas as vezes que você quiser logar uma exceção, você deve usar o método 
 Logger.error() ou Logger.critical() por dois motivos:
-1. Boas práticas
+1. Boas práticas;
 2. Trafalgar Log está preparado para capturar o stacktrace da exceção com esses 
    dois métodos e logá-lo como um array de strings, conforme exemplo abaixo:
   ```json

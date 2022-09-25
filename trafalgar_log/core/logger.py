@@ -234,7 +234,7 @@ class Logger(object):
     def get_instance_id() -> str:
         """
         The get_instance_id function returns the current instance ID of the
-        log event or the constant NOT_SET if it is not present..
+        log event or the constant NOT_SET if it is not present.
 
         :returns: The instance_id of the log event or the constant NOT_SET if
                 it is not present.
@@ -255,7 +255,7 @@ class Logger(object):
     ) -> NoReturn:
         """
         The _do_log function is a helper function that is used to log messages
-        to the Python logger. It's purpose is to abstract away all of the
+        to the Python logger. Its purpose is to abstract away all the
         logging details and provide a single location for managing logging
         settings.
         The function adds extra fields (log_code, payload and severity) to

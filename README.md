@@ -42,11 +42,11 @@ Below is a detailed section about each field printed when you use Trafalgar Log:
 ## ⚙️ Configuration
 ### Environment variables
 For Trafalgar Log work in your application, you need to add these environment variables:
-- **TRA_LOG_APP_NAME (mandatory):** This is the environment variable that 
+- **TRA_LOG_APP_NAME (mandatory):** this is the environment variable that 
   will be used as the **app** field in the log event.
-- **TRA_LOG_DOMAIN (mandatory):** This is the environment variable that 
+- **TRA_LOG_DOMAIN (mandatory):** this is the environment variable that 
   will be used as the **domain** field in the log event.
-- **TRA_LOG_HAKI (optional):** This will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
+- **TRA_LOG_HAKI (optional):** this will be used to set [the log level for the logging](https://docs.python.org/3/library/logging.html#logging.Logger.setLevel); 
   the accepted values for this variable are as follows:
   - INFO
   - DEBUG
@@ -55,8 +55,8 @@ For Trafalgar Log work in your application, you need to add these environment va
   - CRITICAL
   - NOTSET
   For more information, please visit [Logging Levels](https://docs.python.org/3/library/logging.html#levels).
-- **TRA_LOG_SHAMBLES (optional):** If your application has sensitive 
-  data being logged, you might want to list all fields that holds these 
+- **TRA_LOG_SHAMBLES (optional):** if your application has sensitive 
+  data being logged, you might want to list all fields that hold these 
   sensitive data and set this variable with them. For example, if your 
   application logs a brazilian document ID (CPF) and a log event have a 
   field called "CPF" and another field called "password", you can mask its 
@@ -130,7 +130,7 @@ def get_contributor_data(contributor_id: str) -> Optional[dict]:
 The three optional fields below should be set at the beginning of the 
 process, so all subsequent log events share the same data.
 
-- **correlation_id**: This field should be filled with an already 
+- **correlation_id**: this field should be filled with an already 
   predefined correlation_id that someone passed to the application.
   If this is not set at the beginning of the execution, Trafalgar Log will 
   generate one with the method uuid.uuid4().
@@ -141,7 +141,7 @@ process, so all subsequent log events share the same data.
 
   Logger.set_correlation_id("put here the correlation_id received or create one")
   ```
-- **flow:** If not set, Trafalgar Log will set this field as NOT_SET.
+- **flow:** if not set, Trafalgar Log will set this field as NOT_SET.
 
   **Implementation**:
   ```python
@@ -149,7 +149,7 @@ process, so all subsequent log events share the same data.
 
   Logger.set_flow("put here the desired flow")
   ```
-- **instance_id:** If not set, Trafalgar Log will set this field as NOT_SET.
+- **instance_id:** if not set, Trafalgar Log will set this field as NOT_SET.
 
   **Implementation**:
   ```python
@@ -161,7 +161,7 @@ process, so all subsequent log events share the same data.
 ## ❗ Exception logging
 Every time that you want to log an exception, you should use the method 
 Logger.error() or Logger.critical() for two reasons:
-1. Best practices
+1. Best practices;
 2. Trafalgar Log is prepared to capture the stacktrace of the exception with 
    this two methods and print as an array of strings, as in the example below:
   ```json

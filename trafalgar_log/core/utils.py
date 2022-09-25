@@ -146,7 +146,7 @@ def _get_code_line(record: LogRecord) -> str:
     """
     The _get_code_line function is used by the
     TrafalgarLogFormatter.add_fields function to get the code
-    line that a log record was created on. It does this by finding all of the
+    line that a log record was created on. It does this by finding all the
     directories in between where this file (logging/__init__.py) is located
     and where the module containing `record` (the LogRecord object) is
     located, then joining them together with slashes (/).
@@ -154,7 +154,7 @@ def _get_code_line(record: LogRecord) -> str:
 
     :param record: LogRecord: The log record of the log event.
     :returns: A string that contains the relative path to the file where the
-            log record was created, followed by a dash and then it returns a
+            log record was created, followed by a dash, and then it returns a
             string containing the function name and line number of code where
             the log record was created.
     :doc-author: Trelent and this project contributors.
@@ -333,8 +333,9 @@ def _should_shamble_primitive_value(key: str, value: object) -> bool:
     the given value is in the list of keys to shambler, and False otherwise.
 
     :param key: str: The key of the value to check if it should be shambled.
-    :param value: object: The value that should be validate if it is primitive.
-    :returns: True if the value is a primitive and it's key is in
+    :param value: object: The value that should be validated if it is
+            primitive.
+    :returns: True if the value is a primitive, and it's key is in
             FIELDS_TO_SHAMBLE.
     :doc-author: Trelent and this project contributors.
     """
@@ -351,10 +352,10 @@ def _shamble_fields(payload: object) -> Union[dict, object]:
     into _dict_replace_value which will recursively call itself on any nested
     dictionaries or lists.
 
-    :param payload: object: The payload to be have its field replaced with a
+    :param payload: object: The payload to have its field replaced with a
             new value.
     :returns: A dictionary with the same keys and values as the payload
-            argument, except that all of the values have been replaced by a new
+            argument, except that all the values have been replaced by a new
             value or the payload itself if it is not a dictionary.
     :doc-author: Trelent and this project contributors.
     """
@@ -440,7 +441,7 @@ def initialize_logger() -> Logger:
     log messages.
     It also adds a handler to the logger object, which allows for logging of
     messages.
-    It remove handlers to avoid conflict and log duplication.
+    It removes handlers to avoid conflict and log duplication.
     refs.: https://stackoverflow.com/a/45624044/7973282
 
     :returns: A logger object.

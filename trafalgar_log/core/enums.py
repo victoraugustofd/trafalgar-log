@@ -23,8 +23,8 @@ class LogFields(Enum):
         example.
     :cvar LOG_MESSAGE: The log message that you want to print.
     :cvar PAYLOAD: This can be literally anything; if it is a primitive type,
-        it will be printed as it is, but if it is a complex object, a list or even
-        a dict, it will be printed as a JSON object.
+        it will be printed as it is, but if it is a complex object, a list or
+        even a dict, it will be printed as a JSON object.
     :cvar SEVERITY: The log level of the log event.
     :cvar TIMESTAMP: Timestamp of the log event in milliseconds.
     """
