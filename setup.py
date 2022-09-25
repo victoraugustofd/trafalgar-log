@@ -97,7 +97,7 @@ def _get_version() -> str:
 
 
 # Package version
-VERSION = "1.3.0-rc.1"
+VERSION = "1.3.0-rc.2"
 
 setup(
     name="trafalgar-log",
