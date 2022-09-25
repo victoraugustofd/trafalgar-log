@@ -158,7 +158,7 @@ process, so all subsequent log events share the same data.
   Logger.set_instance_id("put here the desired instance_id")
   ```
 
-## ❗ Exception logging
+### ❗ Exception logging
 Every time that you want to log an exception, you should use the method 
 Logger.error() or Logger.critical() for two reasons:
 1. Best practices;

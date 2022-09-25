@@ -42,6 +42,7 @@ Log é utilizado:
 
 
 ## ⚙️ Configuração
+
 ### Variáveis de ambiente
 Para o Trafalgar Log funcionar na sua aplicação, é necessário adicionar 
 essas variáveis de ambiente:
@@ -164,7 +165,7 @@ para que todos os logs subsequentes compartilhem os mesmos dados.
   Logger.set_instance_id("put here the desired instance_id")
   ```
 
-## ❗ Logando exceções
+### ❗ Logando exceções
 Todas as vezes que você quiser logar uma exceção, você deve usar o método 
 Logger.error() ou Logger.critical() por dois motivos:
 1. Boas práticas;
