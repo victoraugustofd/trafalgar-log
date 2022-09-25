@@ -14,7 +14,7 @@ def test_initialize_logger() -> NoReturn:
     logger = initialize_logger()
 
     assert logger.name == SETTINGS.get("APP_NAME")
-    assert logging.getLevelName(logger.level) == SETTINGS.get("HAKI")
+    assert logging.getLevelName(logger.level) == SETTINGS.get("HAKI").upper()
     assert isinstance(logger.handlers[0].formatter, TrafalgarLogFormatter)
 
 
@@ -55,7 +55,7 @@ def test_get_payload() -> NoReturn:
     }
 
 
-def test_get_masked_payload() -> NoReturn:
+def test_get_shambled_payload() -> NoReturn:
     complex_payload = TestMaskComplexObjectWithoutDataClass("1", "2", "3")
     complex_payload2 = TestMaskComplexObjectWithDataClass(
         "1", "2", "3", TestMaskComplexObjectWithoutDataClass(1, 1.1, True)

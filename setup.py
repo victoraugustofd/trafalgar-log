@@ -29,7 +29,7 @@ def raise_for_status(response) -> VersionInfo:
         )
 
 
-def _is_success(status_code: int):
+def _is_success(status_code: int) -> bool:
     return 200 <= status_code < 300
 
 
@@ -54,7 +54,7 @@ def _is_main_env(env: str) -> bool:
     return env.lower() == "main"
 
 
-def _is_versions_equals(version_a, version_b):
+def _is_versions_equals(version_a, version_b) -> bool:
     return version_a.compare(version_b) == 0
 
 
@@ -97,7 +97,7 @@ def _get_version() -> str:
 
 
 # Package version
-VERSION = "1.2.1"
+VERSION = "1.3.0-rc.1"
 
 setup(
     name="trafalgar-log",

@@ -7,7 +7,8 @@
 
 # 🏴‍☠️ Trafalgar Log
 Trafalgar Log is a Python Framework that standardize JSON Logs and make it easy to use. 
-Its main goal is to abstract log implementation for tools that parse JSON data in log events, such as Splunk, Kibana, CloudWatch Logs, etc.
+Its main goal is to abstract log implementation for tools that parse JSON data in log 
+events, such as Splunk, Kibana, CloudWatch Logs, etc.
 This framework was built on top of the packages [logging](https://docs.python.org/3/library/logging.html) and [python-json-logger](https://pypi.org/project/python-json-logger/).
 
 ## 🧬 Log Structure
@@ -17,8 +18,8 @@ Below is a detailed section about each field printed when you use Trafalgar Log:
 |:-----------:|:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |      ✍      | **app**            | Represents the application name that generated the log event.                                                                                                                      |
 |     🍕      | **flow**           | This field should be used as an identifier of who estimulated the application to start the execution which is being logged.                                                        |
-|    🐻‍❄     | **code_line**      | Code line that the log event occurred.                                                                                                                                             |
-|     🍕      | **correlation_id** | ID used to trace a single execution, end-to-end.                                                                                                                                   |
+|    🐻‍❄     | **code_line**      | Code line that the log event occurred; it will be printed as path/to/file.py - function_name:code_line.                                                                            |
+|     🍕      | **correlation_id** | ID used to trace a single execution, end-to-end; this is an uuid4.                                                                                                                 |
 |    🐻‍❄     | **date_time**      | Datetime of the log event on the format yyyy-MM-dd hh:mm:ss.SSS - e.g., 2022-09-18 19:25:43.749                                                                                    |
 |      ✍      | **domain**         | Application domain that can be used to represent the functional domain of the application.                                                                                         |
 |     🍕      | **instance_id**    | ID used to represent the application instance; it can be an IP Address, an ID of a lambda funcion instance, etc.                                                                   |
@@ -28,7 +29,7 @@ Below is a detailed section about each field printed when you use Trafalgar Log:
 |    🐻‍❄     | **severity**       | The log level of the log event.                                                                                                                                                    |
 |    🐻‍❄     | **timestamp**      | Timestamp of the log event in milliseconds.                                                                                                                                        |
 
-### Table legend
+### ⚔️ Table legend
 
 | Legend | Description                                                                                                         |
 |:------:|:--------------------------------------------------------------------------------------------------------------------|
@@ -82,10 +83,10 @@ For Trafalgar Log work in your application, you need to add these environment va
     "timestamp": 1663539943749
   }
   ```
-  Trafalgar Log already has some fields that are always masked, such as 
+  Trafalgar Log already has some fields that are always shambled, such as 
   "password", "senha" and "contraseña".
 
-### Logging events
+### 👨‍💻 Logging events 👩‍💻
 
 Here are some examples of all types os logs that Trafalgar Log can print 
 (this is just a code snippet only to exemplify how to use this package):
@@ -125,7 +126,7 @@ def get_contributor_data(contributor_id: str) -> Optional[dict]:
     return None
 ```
 
-### Optional fields
+### 🤔 Optional fields
 The three optional fields below should be set at the beginning of the 
 process, so all subsequent log events share the same data.
 
@@ -157,7 +158,7 @@ process, so all subsequent log events share the same data.
   Logger.set_instance_id("put here the desired instance_id")
   ```
 
-## Exception logging
+## ❗ Exception logging
 Every time that you want to log an exception, you should use the method 
 Logger.error() or Logger.critical() for two reasons:
 1. Best practices
