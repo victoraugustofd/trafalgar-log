@@ -40,13 +40,9 @@ jobs:
           pip install pytest pytest-dotenv dynaconf python-json-logger
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Unit test with pytest
+      - name: Test with pytest
         run: |
           pytest tests/unit --envfile tests/.env
-
-      - name: Performance test with pytest
-        run: |
-          pytest tests/performance --envfile tests/.env
 
   deploy:
     runs-on: ubuntu-latest
