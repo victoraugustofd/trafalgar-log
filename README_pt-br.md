@@ -33,17 +33,17 @@ Log é utilizado:
 
 ### ⚔ Legenda da tabela
 
-| Legenda | Descrição                                                                                                                |
-|:-------:|:-------------------------------------------------------------------------------------------------------------------------|
-|   ✍️    | Você é responsável por configurar esse campo através de variáveis de ambiente ([veja seção](#variáveis-de-ambiente))     |
-|  🐻‍❄️  | Esse campo é preenchido automaticamente a cada evento de log.                                                            |
-|   💻    | Quando você codifica um evento de log, passe esse campo para o método de log ([veja seção](#logando-eventos))            |
-|   🍕    | Esse campo é opcional, mas faz com que seu log fique mais fácil de ser analisado ([veja seção](#campos-opcionais))       |
+| Legenda | Descrição                                                                                                             |
+|:-------:|:----------------------------------------------------------------------------------------------------------------------|
+|   ✍️    | Você é responsável por configurar esse campo através de variáveis de ambiente (veja seção 🌌 Variáveis de ambiente)   |
+|  🐻‍❄️  | Esse campo é preenchido automaticamente a cada evento de log.                                                         |
+|   💻    | Quando você codifica um evento de log, passe esse campo para o método de log (veja seção 👨‍💻 Logando eventos 👩‍💻) |
+|   🍕    | Esse campo é opcional, mas faz com que seu log fique mais fácil de ser analisado (veja seção 🤔 Campos opcionais))    |
 
 
 ## ⚙️ Configuração
 
-### Variáveis de ambiente
+### 🌌 Variáveis de ambiente
 Para o Trafalgar Log funcionar na sua aplicação, é necessário adicionar 
 essas variáveis de ambiente:
 - **TRA_LOG_APP_NAME (obrigatório):** essa é a variável de ambiente que 

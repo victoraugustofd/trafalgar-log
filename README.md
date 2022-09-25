@@ -31,16 +31,16 @@ Below is a detailed section about each field printed when you use Trafalgar Log:
 
 ### ⚔️ Table legend
 
-| Legend | Description                                                                                                         |
-|:------:|:--------------------------------------------------------------------------------------------------------------------|
-|   ✍️   | You are responsible for configuring this field through environment variable ([see section](#environment-variables)) |
-| 🐻‍❄️  | This field is automatically filled in each log event.                                                               |
-|   💻   | When you code a log event, you will need to pass this field to log method ([see section](#logging-events))          |
-|   🍕   | This field is optional, but makes your log easier to analyse ([see section](#optional-fields))                      |
+| Legend | Description                                                                                                        |
+|:------:|:-------------------------------------------------------------------------------------------------------------------|
+|   ✍️   | You are responsible for configuring this field through environment variable (see section 🌌 Environment variables) |
+| 🐻‍❄️  | This field is automatically filled in each log event.                                                              |
+|   💻   | When you code a log event, you will need to pass this field to log method (see section 👨‍💻 Logging events 👩‍💻) |
+|   🍕   | This field is optional, but makes your log easier to analyse (see section 🤔 Optional fields)                      |
 
 
 ## ⚙️ Configuration
-### Environment variables
+### 🌌 Environment variables
 For Trafalgar Log work in your application, you need to add these environment variables:
 - **TRA_LOG_APP_NAME (mandatory):** this is the environment variable that 
   will be used as the **app** field in the log event.
