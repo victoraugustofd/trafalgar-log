@@ -187,7 +187,10 @@ class Logger(object):
         try:
             return Logger.correlation_id
         except AttributeError:
-            return str(uuid4())
+            correlation_id = str(uuid4())
+            Logger.set_correlation_id(correlation_id)
+
+            return correlation_id
 
     @staticmethod
     def set_flow(flow: str) -> NoReturn:
